@@ -160,25 +160,15 @@ public class StaticRenderer extends Thread {
             }
 
             preRenderingSetup();
-            draw(prevByteBuffer, 0, VertexFormats.POSITION_COLOR, prevCount);
+            BufferRenderer.draw(prevByteBuffer, 0, VertexFormats.POSITION_COLOR, prevCount);
             postRenderingReset();
         } else if (nextByteBuffer != null && nextByteBuffer.capacity() == bufferSize) {
             preRenderingSetup();
-            draw(nextByteBuffer, 0, VertexFormats.POSITION_COLOR, nextCount);
+            BufferRenderer.draw(nextByteBuffer, 0, VertexFormats.POSITION_COLOR, nextCount);
             postRenderingReset();
         }
 
         prevTickDelta = tickDelta;
-    }
-
-    private static void draw(ByteBuffer buffer, int mode, VertexFormat vertexFormat, int count) {
-        RenderSystem.assertThread(RenderSystem::isOnRenderThread);
-        buffer.clear();
-        if (count > 0) {
-            vertexFormat.startDrawing(MemoryUtil.memAddress(buffer));
-            GlStateManager.drawArrays(mode, 0, count);
-            vertexFormat.endDrawing();
-        }
     }
 
     private static void preRenderingSetup() {

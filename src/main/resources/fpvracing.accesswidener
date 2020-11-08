@@ -1,0 +1,2 @@
+accessWidener v1 named
+accessible method net/minecraft/client/render/BufferRenderer draw (Ljava/nio/ByteBuffer;ILnet/minecraft/client/render/VertexFormat;I)V

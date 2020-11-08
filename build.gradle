@@ -22,6 +22,10 @@ dependencies {
 	shadow "cz.advel.jbullet:jbullet:${project.jbullet_version}"
 }
 
+minecraft {
+	accessWidener "src/main/resources/fpvracing.accesswidener"
+}
+
 processResources {
 	inputs.property "version", project.version
 
