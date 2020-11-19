@@ -3,6 +3,7 @@ package dev.lazurite.fpvracing.client;
 import dev.lazurite.fpvracing.client.renderer.FixedWingRenderer;
 import dev.lazurite.fpvracing.client.renderer.QuadcopterItemRenderer;
 import dev.lazurite.fpvracing.client.renderer.QuadcopterRenderer;
+import dev.lazurite.fpvracing.client.renderer.StaticRenderer2;
 import dev.lazurite.fpvracing.network.packet.*;
 import dev.lazurite.fpvracing.physics.PhysicsWorld;
 import dev.lazurite.fpvracing.server.ServerInitializer;
@@ -29,6 +30,9 @@ public class ClientInitializer implements ClientModInitializer {
     /** The running instance of the minecraft client. */
     public static final MinecraftClient client = MinecraftClient.getInstance();
 
+    /** The client's {@link StaticRenderer2} instance used to render simulated video static. */
+    private static final StaticRenderer2 staticRenderer = new StaticRenderer2();
+
     /** The physics world used for {@link QuadcopterEntity} objects. */
     public static PhysicsWorld physicsWorld;
 
@@ -42,6 +46,13 @@ public class ClientInitializer implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         GLFW.glfwInit(); // forcefully initializes GLFW
+
+        staticRenderer.setDesiredPseudopixelSize(20);
+        staticRenderer.setForceScaling(false);
+        staticRenderer.setMinRowHeight(2);
+        staticRenderer.setMaxRowHeight(2);
+        staticRenderer.setMinColumnWidth(4);
+        staticRenderer.setMaxColumnWidth(4);
 
         config = ConfigFile.readConfig(CONFIG_NAME);
         ClientTick.register();
@@ -64,8 +75,16 @@ public class ClientInitializer implements ClientModInitializer {
     }
 
     /**
+     * Get the client's {@link StaticRenderer2} object.
+     * @return the {@link StaticRenderer2} object being stored.
+     */
+    public static StaticRenderer2 getStaticRenderer() {
+        return staticRenderer;
+    }
+
+    /**
      * Get the config object.
-     * @return the {@link Config} object being stored
+     * @return the {@link Config} object being stored.
      */
     public static Config getConfig() {
         return config;
